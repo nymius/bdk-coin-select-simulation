@@ -1,9 +1,7 @@
 # bdk-coin-selection-simulation
----
 A simulator to test [bitcoindevkit/coin-select](https://github.com/bitcoindevkit/coin-select) against coin selection in Bitcoin Core and gain introspection about this Rust coin selection implementation.
 
 ## Overview
----
 
 Currently there is no production ready bitcoin coin selection available in Rust. There are different ongoing efforts and others have been done in the past but none of them achieved the desired state:
 - [bitcoindevkit/coin-select](https://github.com/bitcoindevkit/coin-select)
@@ -33,7 +31,6 @@ As the short term objectives is to be comparable with Bitcoin Core coin selectio
 A more ambitious objective is to have a simulation framework for coin selection written in Rust, which is capable of testing different coin selection algorithms implemented in different languages, producing a common output format useful for anyone trying to gain insight from it.
 
 ## Implementation
----
 
 As said above, as a first iteration of the simulator, the goal is to obtain a comparable result to the obtained with the [coin-selection-simulation](https://github.com/achow101/coin-selection-simulation). The implementation is mainly is mainly a code transliteration with some adjustments trying to avoid the output modifications as much as possible.
 
@@ -110,7 +107,6 @@ Where:
 
 
 ## Simulated algorithm
----
 Currently there is no way to change the algorithm being run without touching the code.
 
 The simulated algorithm is Branch and Bound optimizing to get a selection with the lowest fees incurred now and in the future when spending the possibly created change output.
@@ -122,7 +118,6 @@ The hard limit of Branch and Bound iterations is 100000, after which if there is
 Following [coin-selection-simulation](https://github.com/achow101/coin-selection-simulation) , the only types of UTxOs used are P2WPKH.
 
 ## Usage
----
 To execute a simulation run:
 ```bash
 ./simulate.sh
