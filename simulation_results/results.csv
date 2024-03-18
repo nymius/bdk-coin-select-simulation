@@ -1,0 +1,23 @@
+scenario_file,current_balance,current_utxo_set_count,deposit_count,input_spent_count,withdraw_count,negative_effective_valued_utxos_spent_count,created_change_outputs_count,changeless_transaction_count,min_change_value,max_change_value,mean_change_value,std_dev_of_change_value,total_fees,mean_fees_per_withdraw,cost_to_empty_at_long_term_fee_rate,total_cost,min_input_size,max_input_size,mean_input_size,std_dev_of_input_size,usage
+bustabit-2019-2020-tiny.csv,1569000,1,1,0,0,0,0,0,0,0,NaN,0.0,0.0,NaN,680.0,680.0,0,0,NaN,0.0,
+bustabit-2019-2020-tiny.csv,3139000,2,2,0,0,0,0,0,0,0,NaN,0.0,0.0,NaN,1360.0,1360.0,0,0,NaN,0.0,
+bustabit-2019-2020-tiny.csv,4079000,3,3,0,0,0,0,0,0,0,NaN,0.0,0.0,NaN,2040.0,2040.0,0,0,NaN,0.0,
+bustabit-2019-2020-tiny.csv,4873500,4,4,0,0,0,0,0,0,0,NaN,0.0,0.0,NaN,2720.0,2720.0,0,0,NaN,0.0,
+bustabit-2019-2020-tiny.csv,5356500,5,5,0,0,0,0,0,0,0,NaN,0.0,0.0,NaN,3400.0,3400.0,0,0,NaN,0.0,
+bustabit-2019-2020-tiny.csv,5371360,6,6,0,0,0,0,0,0,0,NaN,0.0,0.0,NaN,4080.0,4080.0,0,0,NaN,0.0,
+bustabit-2019-2020-tiny.csv,5386220,7,7,0,0,0,0,0,0,0,NaN,0.0,0.0,NaN,4760.0,4760.0,0,0,NaN,0.0,
+bustabit-2019-2020-tiny.csv,5886220,8,8,0,0,0,0,0,0,0,NaN,0.0,0.0,NaN,5440.0,5440.0,0,0,NaN,0.0,
+bustabit-2019-2020-tiny.csv,6215220,9,9,0,0,0,0,0,0,0,NaN,0.0,0.0,NaN,6120.0,6120.0,0,0,NaN,0.0,
+bustabit-2019-2020-tiny.csv,6544820,10,10,0,0,0,0,0,0,0,NaN,0.0,0.0,NaN,6800.0,6800.0,0,0,NaN,0.0,
+bustabit-2019-2020-tiny.csv,6876220,11,11,0,0,0,0,0,0,0,NaN,0.0,0.0,NaN,7480.0,7480.0,0,0,NaN,0.0,
+bustabit-2019-2020-tiny.csv,7205620,12,12,0,0,0,0,0,0,0,NaN,0.0,0.0,NaN,8160.0,8160.0,0,0,NaN,0.0,
+bustabit-2019-2020-tiny.csv,7534620,13,13,0,0,0,0,0,0,0,NaN,0.0,0.0,NaN,8840.0,8840.0,0,0,NaN,0.0,
+bustabit-2019-2020-tiny.csv,7864020,14,14,0,0,0,0,0,0,0,NaN,0.0,0.0,NaN,9520.0,9520.0,0,0,NaN,0.0,
+bustabit-2019-2020-tiny.csv,8193420,15,15,0,0,0,0,0,0,0,NaN,0.0,0.0,NaN,10200.0,10200.0,0,0,NaN,0.0,
+bustabit-2019-2020-tiny.csv,8524820,16,16,0,0,0,0,0,0,0,NaN,0.0,0.0,NaN,10880.0,10880.0,0,0,NaN,0.0,
+bustabit-2019-2020-tiny.csv,8854220,17,17,0,0,0,0,0,0,0,NaN,0.0,0.0,NaN,11560.0,11560.0,0,0,NaN,0.0,
+bustabit-2019-2020-tiny.csv,9289381,14,6744,5067,500,42,461,39,0,0,17892884.0,35911560.0,3312222.0,6624.444,9520.0,3321742.0,0,0,10.134,81.521286,"bnb: 490,select_sorted: 8,failed: 2484"
+bustabit-2019-2020-tiny.csv,9412476,15,6745,5067,500,42,461,39,0,0,17892884.0,35911560.0,3312222.0,6624.444,10200.0,3322422.0,0,0,10.134,81.521286,"bnb: 490,select_sorted: 8,failed: 2484"
+bustabit-2019-2020-tiny.csv,10102476,16,6746,5067,500,42,461,39,0,0,17892884.0,35911560.0,3312222.0,6624.444,10880.0,3323102.0,0,0,10.134,81.521286,"bnb: 490,select_sorted: 8,failed: 2484"
+bustabit-2019-2020-tiny.csv,10202476,17,6747,5067,500,42,461,39,0,0,17892884.0,35911560.0,3312222.0,6624.444,11560.0,3323782.0,0,0,10.134,81.521286,"bnb: 490,select_sorted: 8,failed: 2484"
+bustabit-2019-2020-tiny.csv,110202476,18,6748,5067,500,42,461,39,0,0,17892884.0,35911560.0,3312222.0,6624.444,12240.0,3324462.0,0,0,10.134,81.521286,"bnb: 490,select_sorted: 8,failed: 2484"
