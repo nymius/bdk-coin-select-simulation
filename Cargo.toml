@@ -1,0 +1,11 @@
+[package]
+name = "bdk-coin-select-simulation"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bdk_coin_select = { git = "https://github.com/bitcoindevkit/coin-select.git", branch = "master" }
+bitcoin = "0.31.1"
+csv = "1.3.0"
+serde = { version = "1.0.197", features = [ "derive" ] }
+statistical = "1.0.0"
