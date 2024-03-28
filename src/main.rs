@@ -161,7 +161,7 @@ fn run() -> Result<(), Box<dyn Error>> {
 
         if record.amount < 0.0 {
 
-            if withdraw_attempt % 500 == 0 {
+            if withdraw_attempt != 0 && withdraw_attempt % 500 == 0 {
                 simulation_summary.usage = algorithm_frequencies.iter().map(|(key, value)| format!("{}: {}", key, value)).collect::<Vec<_>>().join(",");
 
                 simulation_summary.cost_to_empty_at_long_term_fee_rate = candidates.len() as f32 * SEGWIT_V1_TXIN_WEIGHT as f32 * long_term_feerate.as_sat_vb();
