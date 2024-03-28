@@ -184,7 +184,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             utxos_writer.serialize((simulation_summary.withdraw_count, utxo_amounts))?;
 
             if !coin_selector.is_selection_possible(target) {
-                algorithm_frequencies.entry("failed").and_modify(|e| *e += 1).or_insert(0);
+                algorithm_frequencies.entry("failed").and_modify(|e| *e += 1).or_insert(1);
                 full_results_writer.serialize(
                     SimulationEntry {
                         id: withdraw_attempt,
@@ -234,12 +234,12 @@ fn run() -> Result<(), Box<dyn Error>> {
                     println!("failed to find a solution: {}", err);
                     // fall back to naive selection
                     coin_selector.select_until_target_met(target).expect("a selection was impossible!");
-                    algorithm_frequencies.entry("select_sorted").and_modify(|e| *e += 1).or_insert(0);
+                    algorithm_frequencies.entry("select_sorted").and_modify(|e| *e += 1).or_insert(1);
                     algorithm = String::from("select_sorted");
                 }
                 Ok(score) => {
                     println!("we found a solution with score {}", score);
-                    algorithm_frequencies.entry("bnb").and_modify(|e| *e += 1).or_insert(0);
+                    algorithm_frequencies.entry("bnb").and_modify(|e| *e += 1).or_insert(1);
                 }
             };
 
