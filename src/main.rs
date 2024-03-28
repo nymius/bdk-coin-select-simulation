@@ -345,6 +345,10 @@ fn run() -> Result<(), Box<dyn Error>> {
         };
         
     }
+    utxos_writer.flush()?;
+    inputs_writer.flush()?;
+    full_results_writer.flush()?;
+    results_sample_writer.flush()?;
     Ok(())
 }
 
