@@ -181,11 +181,11 @@ fn run() -> Result<(), Box<dyn Error>> {
 
             let utxos = candidates.iter().map(|x| Amount::from_sat(x.value).to_string_in(Denomination::Satoshi)).collect::<Vec<String>>();
             let utxo_amounts = utxos.join(",");
-            let _ = utxos_writer.serialize((simulation_summary.withdraw_count, utxo_amounts));
+            utxos_writer.serialize((simulation_summary.withdraw_count, utxo_amounts))?;
 
             if !coin_selector.is_selection_possible(target) {
                 algorithm_frequencies.entry("failed").and_modify(|e| *e += 1).or_insert(0);
-                let _ = full_results_writer.serialize(
+                full_results_writer.serialize(
                     SimulationEntry {
                         id: withdraw_attempt,
                         amount: target.value,
@@ -201,7 +201,7 @@ fn run() -> Result<(), Box<dyn Error>> {
                         real_feerate: None,
                         waste_score: None,
                     }
-                );
+                )?;
                 continue;
             }
 
@@ -253,7 +253,7 @@ fn run() -> Result<(), Box<dyn Error>> {
 
             let inputs = coin_selector.selected().map(|x| Amount::from_sat(x.1.value).to_string_in(Denomination::Satoshi)).collect::<Vec<String>>();
             let input_amounts = inputs.join(",");
-            let _ = inputs_writer.serialize((simulation_summary.withdraw_count, input_amounts));
+            inputs_writer.serialize((simulation_summary.withdraw_count, input_amounts))?;
 
             candidates = coin_selector.unselected().map(|x| x.1).collect::<Vec<_>>();
 
@@ -341,7 +341,7 @@ fn run() -> Result<(), Box<dyn Error>> {
 
             simulation_summary.current_utxo_set_count = candidates.len();
 
-            let _ = results_sample_writer.serialize(&simulation_summary);
+            results_sample_writer.serialize(&simulation_summary)?;
         };
         
     }
