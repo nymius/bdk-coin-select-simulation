@@ -160,6 +160,35 @@ fn run() -> Result<(), Box<dyn Error>> {
         let record: ScenarioEntry = result?;
 
         if record.amount < 0.0 {
+
+            if withdraw_attempt % 500 == 0 {
+                simulation_summary.usage = algorithm_frequencies.iter().map(|(key, value)| format!("{}: {}", key, value)).collect::<Vec<_>>().join(",");
+
+                simulation_summary.cost_to_empty_at_long_term_fee_rate = candidates.len() as f32 * SEGWIT_V1_TXIN_WEIGHT as f32 * long_term_feerate.as_sat_vb();
+
+                simulation_summary.total_cost = simulation_summary.total_fees + simulation_summary.cost_to_empty_at_long_term_fee_rate;
+
+                simulation_summary.mean_fees_per_withdraw = simulation_summary.total_fees / simulation_summary.withdraw_count as f32;
+
+                simulation_summary.mean_change_value = mean(&change_values);
+
+                simulation_summary.std_dev_of_change_value = if change_values.len() > 1 {
+                    standard_deviation(&change_values, None)
+                } else { 0.0 };
+
+                simulation_summary.mean_input_size = mean(&input_sizes);
+
+                simulation_summary.std_dev_of_input_size = if input_sizes.len() > 1 {
+                    standard_deviation(&input_sizes, None)
+                } else { 0.0 };
+
+                simulation_summary.current_balance = candidates.iter().map(|x| x.value).sum::<u64>();
+
+                simulation_summary.current_utxo_set_count = candidates.len();
+
+                results_sample_writer.serialize(&simulation_summary)?;
+            };
+
             withdraw_attempt += 1;
 
             let selection_inputs = candidates.clone();
@@ -315,35 +344,6 @@ fn run() -> Result<(), Box<dyn Error>> {
                 is_segwit: true
             });
         }
-
-        if withdraw_attempt % 500 == 0 {
-            simulation_summary.usage = algorithm_frequencies.iter().map(|(key, value)| format!("{}: {}", key, value)).collect::<Vec<_>>().join(",");
-
-            simulation_summary.cost_to_empty_at_long_term_fee_rate = candidates.len() as f32 * SEGWIT_V1_TXIN_WEIGHT as f32 * long_term_feerate.as_sat_vb();
-
-            simulation_summary.total_cost = simulation_summary.total_fees + simulation_summary.cost_to_empty_at_long_term_fee_rate;
-
-            simulation_summary.mean_fees_per_withdraw = simulation_summary.total_fees / simulation_summary.withdraw_count as f32;
-
-            simulation_summary.mean_change_value = mean(&change_values);
-
-            simulation_summary.std_dev_of_change_value = if change_values.len() > 1 {
-                standard_deviation(&change_values, None)
-            } else { 0.0 };
-
-            simulation_summary.mean_input_size = mean(&input_sizes);
-
-            simulation_summary.std_dev_of_input_size = if input_sizes.len() > 1 {
-                standard_deviation(&input_sizes, None)
-            } else { 0.0 };
-
-            simulation_summary.current_balance = candidates.iter().map(|x| x.value).sum::<u64>();
-
-            simulation_summary.current_utxo_set_count = candidates.len();
-
-            results_sample_writer.serialize(&simulation_summary)?;
-        };
-        
     }
     utxos_writer.flush()?;
     inputs_writer.flush()?;
