@@ -181,7 +181,7 @@ fn run() -> Result<(), Box<dyn Error>> {
 
             let utxos = candidates.iter().map(|x| Amount::from_sat(x.value).to_string_in(Denomination::Satoshi)).collect::<Vec<String>>();
             let utxo_amounts = utxos.join(",");
-            utxos_writer.serialize((simulation_summary.withdraw_count, utxo_amounts))?;
+            utxos_writer.serialize((withdraw_attempt, utxo_amounts))?;
 
             if !coin_selector.is_selection_possible(target) {
                 algorithm_frequencies.entry("failed").and_modify(|e| *e += 1).or_insert(1);
@@ -253,7 +253,7 @@ fn run() -> Result<(), Box<dyn Error>> {
 
             let inputs = coin_selector.selected().map(|x| Amount::from_sat(x.1.value).to_string_in(Denomination::Satoshi)).collect::<Vec<String>>();
             let input_amounts = inputs.join(",");
-            inputs_writer.serialize((simulation_summary.withdraw_count, input_amounts))?;
+            inputs_writer.serialize((withdraw_attempt, input_amounts))?;
 
             candidates = coin_selector.unselected().map(|x| x.1).collect::<Vec<_>>();
 
@@ -316,7 +316,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             });
         }
 
-        if simulation_summary.withdraw_count % 500 == 0 {
+        if withdraw_attempt % 500 == 0 {
             simulation_summary.usage = algorithm_frequencies.iter().map(|(key, value)| format!("{}: {}", key, value)).collect::<Vec<_>>().join(",");
 
             simulation_summary.cost_to_empty_at_long_term_fee_rate = candidates.len() as f32 * SEGWIT_V1_TXIN_WEIGHT as f32 * long_term_feerate.as_sat_vb();
