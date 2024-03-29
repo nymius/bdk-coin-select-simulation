@@ -300,7 +300,6 @@ fn run() -> Result<(), Box<dyn Error>> {
         println!("we selected {} inputs", selection.len());
         println!("We are including a change output of {} value (0 means not change)", change.value);
 
-        change_values.push(change.value as f32);
 
         candidates.push(Candidate {
             input_count: 1,
@@ -315,11 +314,15 @@ fn run() -> Result<(), Box<dyn Error>> {
         input_sizes.push(vin_size as f32);
         simulation_summary.negative_effective_valued_utxos_spent_count += coin_selector.selected().map(|x| x.1).filter(|x| x.effective_value(target.fee.rate) < 0.0).count();
 
-        simulation_summary.created_change_outputs_count += if change.value == 0 { 0 } else { 1 };
-        simulation_summary.changeless_transaction_count += if change.value == 0 { 1 } else { 0 };
+        if change.value == 0 {
+            simulation_summary.changeless_transaction_count += 1;
+        } else {
+            change_values.push(change.value as f32);
+            simulation_summary.created_change_outputs_count += 1;
+            simulation_summary.min_change_value = cmp::min(simulation_summary.min_change_value, change.value);
+            simulation_summary.max_change_value = cmp::min(simulation_summary.max_change_value, change.value);
+        };
 
-        simulation_summary.min_change_value = cmp::min(simulation_summary.min_change_value, change.value);
-        simulation_summary.max_change_value = cmp::min(simulation_summary.max_change_value, change.value);
         simulation_summary.min_input_size = cmp::min(simulation_summary.min_input_size, coin_selector.selected().len());
         simulation_summary.max_input_size = cmp::min(simulation_summary.max_input_size, coin_selector.selected().len());
 
