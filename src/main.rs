@@ -1,3 +1,9 @@
+mod input_types;
+mod output_types;
+
+use crate::input_types::{ PendingPayment, ScenarioEntry };
+use crate::output_types::{ SimulationEntry, SimulationSummary };
+
 use std::{
     cmp,
     env,
@@ -18,60 +24,6 @@ use bdk_coin_select::metrics::LowestFee;
 
 const SEGWIT_V1_TXIN_WEIGHT: u32 = 68;
 const SEGWIT_V1_TXOUT_WEIGHT: u32 = 31;
-
-#[derive(Debug, serde::Deserialize, Clone)]
-struct ScenarioEntry {
-    amount: f64,
-    fee_rate_per_kvb: f64,
-}
-
-#[derive(Debug, serde::Serialize)]
-struct SimulationEntry {
-    id: usize,
-    amount: u64,
-    fee: Option<i64>,
-    target_feerate: f32,
-    real_feerate: Option<f32>,
-    algorithm: String,
-    input_count: Option<usize>,
-    negative_effective_valued_utxos: Option<usize>,
-    output_count: Option<usize>,
-    change_amount: Option<u64>,
-    utxo_count_before_payment: usize,
-    utxo_count_after_payment: usize,
-    waste_score: Option<f32>
-}
-
-#[derive(Debug, serde::Serialize)]
-struct SimulationSummary {
-    scenario_file: String,
-    current_balance: u64,
-    current_utxo_set_count: usize,
-    deposit_count: usize,
-    input_spent_count: usize,
-    withdraw_count: usize,
-    negative_effective_valued_utxos_spent_count: usize,
-    created_change_outputs_count: usize,
-    changeless_transaction_count: usize,
-    min_change_value: u64,
-    max_change_value: u64,
-    mean_change_value: f32,
-    std_dev_of_change_value: f32,
-    total_fees: f32,
-    mean_fees_per_withdraw: f32,
-    cost_to_empty_at_long_term_fee_rate: f32,
-    total_cost: f32,
-    min_input_size: usize,
-    max_input_size: usize,
-    mean_input_size: f32,
-    std_dev_of_input_size: f32, 
-    usage: String,
-}
-
-struct PendingPayment {
-    amount: u64,
-    weight: u32,
-}
 
 fn run() -> Result<(), Box<dyn Error>> {
     let input_path = get_arg(1)?.into_string().expect("First argument should be a valid string.");
@@ -132,30 +84,8 @@ fn run() -> Result<(), Box<dyn Error>> {
     let mut algorithm_frequencies: HashMap<&str, u32> = HashMap::new();
     let mut withdraw_attempt: usize = 0;
 
-    let mut simulation_summary = SimulationSummary {
-        scenario_file: input_path.split('/').last().expect("There should be at least one element in path.").to_string(),
-        current_balance: 0,
-        current_utxo_set_count: 0,
-        deposit_count: 0,
-        input_spent_count: 0,
-        withdraw_count: 0,
-        negative_effective_valued_utxos_spent_count: 0,
-        created_change_outputs_count: 0,
-        changeless_transaction_count: 0,
-        min_change_value: u64::MAX,
-        max_change_value: u64::MIN,
-        mean_change_value: 0.0,
-        std_dev_of_change_value: 0.0,
-        total_fees: 0.0,
-        mean_fees_per_withdraw: 0.0,
-        cost_to_empty_at_long_term_fee_rate: 0.0,
-        total_cost: 0.0,
-        min_input_size: usize::MAX,
-        max_input_size: usize::MIN,
-        mean_input_size: 0.0,
-        std_dev_of_input_size: 0.0, 
-        usage: String::from(""),
-    };
+    let mut simulation_summary = SimulationSummary { scenario_file: input_path.split('/').last().expect("There should be at least one element in path.").to_string(), ..Default::default() };
+
     for result in reader.deserialize() {
         let record: ScenarioEntry = result?;
 
@@ -232,12 +162,7 @@ fn run() -> Result<(), Box<dyn Error>> {
                     utxo_count_after_payment: candidates.len(),
                     utxo_count_before_payment,
                     algorithm: String::from("failed"),
-                    fee: None,
-                    change_amount: None,
-                    input_count: None,
-                    output_count: None,
-                    real_feerate: None,
-                    waste_score: None,
+                    ..Default::default()
                 }
             )?;
             continue;
