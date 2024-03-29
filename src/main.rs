@@ -320,11 +320,11 @@ fn run() -> Result<(), Box<dyn Error>> {
             change_values.push(change.value as f32);
             simulation_summary.created_change_outputs_count += 1;
             simulation_summary.min_change_value = cmp::min(simulation_summary.min_change_value, change.value);
-            simulation_summary.max_change_value = cmp::min(simulation_summary.max_change_value, change.value);
+            simulation_summary.max_change_value = cmp::max(simulation_summary.max_change_value, change.value);
         };
 
         simulation_summary.min_input_size = cmp::min(simulation_summary.min_input_size, coin_selector.selected().len());
-        simulation_summary.max_input_size = cmp::min(simulation_summary.max_input_size, coin_selector.selected().len());
+        simulation_summary.max_input_size = cmp::max(simulation_summary.max_input_size, coin_selector.selected().len());
 
         full_results_writer.serialize(
             SimulationEntry {
