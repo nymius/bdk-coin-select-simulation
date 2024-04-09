@@ -25,9 +25,17 @@ use bdk_coin_select::metrics::LowestFee;
 const SEGWIT_V1_TXIN_WEIGHT: u32 = 68;
 const SEGWIT_V1_TXOUT_WEIGHT: u32 = 31;
 
+#[derive(Default, Copy, Clone)]
+enum PaymentPolicy {
+    #[default]
+    RollForward,
+    Drop,
+}
+
 fn run() -> Result<(), Box<dyn Error>> {
     let input_path = get_arg(1)?.into_string().expect("First argument should be a valid string.");
     let output_path = get_arg(2)?.into_string().expect("Second argument should be a valid string.");
+    let payment_policy = PaymentPolicy::Drop;
 
     let scenario_file = File::open(&input_path)?;
     let mut reader = csv::ReaderBuilder::new()
@@ -165,6 +173,11 @@ fn run() -> Result<(), Box<dyn Error>> {
                     ..Default::default()
                 }
             )?;
+
+            if let PaymentPolicy::Drop = payment_policy {
+                payments.clear()
+            }
+
             continue;
         }
 
