@@ -189,7 +189,7 @@ impl Serialize for SimulationSummary {
         state.serialize_field("total_fees", &self.total_fees)?;
         state.serialize_field("mean_fees_per_withdraw", &(self.total_fees / self.withdraw_count as f32))?;
         state.serialize_field("cost_to_empty_at_long_term_fee_rate", &self.cost_to_empty_at_long_term_feerate)?;
-        state.serialize_field("total_cost", &(self.total_cost + self.cost_to_empty_at_long_term_feerate))?;
+        state.serialize_field("total_cost", &(self.total_fees + self.cost_to_empty_at_long_term_feerate))?;
         state.serialize_field("min_input_set_size", &self.min_input_set_size)?;
         state.serialize_field("max_input_set_size", &self.max_input_set_size)?;
         state.serialize_field("mean_input_set_size", &(mean(&self.input_set_sizes)))?;
