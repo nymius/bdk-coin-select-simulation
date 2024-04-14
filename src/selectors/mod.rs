@@ -1,4 +1,5 @@
 pub mod bdk;
+pub mod rust_coinselect;
 
 use std::error::Error;
 use crate::{ ScenarioEntry, SimulationEntry, PendingPayment };
