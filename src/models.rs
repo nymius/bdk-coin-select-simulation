@@ -12,12 +12,13 @@ pub struct ScenarioEntry {
     pub fee_rate_per_kvb: f32,
 }
 
+#[derive(Clone)]
 pub struct PendingPayment {
     pub amount: u64,
     pub weight: u32,
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Clone, serde::Deserialize)]
 pub struct SimulationEntry {
     pub id: usize,
     pub inputs: Vec<u64>,

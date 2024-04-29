@@ -12,3 +12,7 @@ serde = { version = "1.0.197", features = [ "derive" ] }
 statistical = "1.0.0"
 tracing = "0.1.40"
 tracing-subscriber = { version = "0.3.18", features = ["env-filter", "registry"] }
+
+[dependencies.pyo3]
+version = "0.21.2"
+features = ["auto-initialize"]
