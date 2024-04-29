@@ -9,6 +9,7 @@ use std::{
     fs,
 };
 
+use tracing::{Level, event };
 use csv::Writer;
 
 use bitcoin::amount::{ Amount, Denomination };
@@ -121,6 +122,8 @@ impl Simulation<'_> {
             simulation_recorder.utxos_writer.serialize((withdraw_attempt, utxo_amounts))?;
 
             let mut simulation_entry = self.selector.withdraw(&payments, record.fee_rate_per_kvb);
+
+            event!(Level::INFO, "withdraw {}/? finished", withdraw_attempt);
 
             match self.payment_policy {
                 PaymentPolicy::Drop => payments.clear(),

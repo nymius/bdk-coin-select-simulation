@@ -14,6 +14,8 @@ use std::{
     process,
 };
 
+use tracing_subscriber::{ EnvFilter, fmt, prelude::* };
+
 const SEGWIT_V1_TXIN_WEIGHT: u32 = 68;
 const SEGWIT_V1_TXOUT_WEIGHT: u32 = 31;
 
@@ -44,7 +46,13 @@ fn simulate() -> Result<(), Box<dyn Error>> {
     simulation.run(&input_path, &output_path)
 }
 
+
 fn main() {
+    tracing_subscriber::registry()
+        .with(fmt::layer())
+        .with(EnvFilter::from_default_env())
+        .init();
+
     if let Err(err) = simulate() {
         eprintln!("{}", err);
         process::exit(1);
