@@ -136,15 +136,13 @@ impl SimulationSummary {
             fee as f32
         } else { 0.0 };
 
-        if simulation_entry.change_amount.is_none() {
-            self.changeless_transaction_count += 1;
-        } else {
-            let change_value = simulation_entry.change_amount
-                .ok_or("Should never fail because we already check is not None.")?;
+        if let Some(change_value) = simulation_entry.change_amount {
             self.change_values.push(change_value as f32);
             self.created_change_outputs_count += 1;
             self.min_change_value = cmp::min(self.min_change_value, change_value);
             self.max_change_value = cmp::max(self.max_change_value, change_value);
+        } else {
+            self.changeless_transaction_count += 1;
         };
 
         if !simulation_entry.inputs.is_empty() {
